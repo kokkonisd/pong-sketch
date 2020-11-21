@@ -138,7 +138,7 @@ function resetPong ()
     pong.x = CANVAS_WIDTH / 2 - pong.size / 2;
     pong.y = CANVAS_HEIGHT / 2 - pong.size / 2;
     pong.speedX = pong.baseSpeed;
-    pong.speedY = random(pong.baseSpeed * 0.7, pong.baseSpeed * 2);
+    pong.speedY = random(pong.baseSpeed * 0.5, pong.baseSpeed * 2);
     pong.directionX = random([1, -1]);
     pong.directionY = random([1, -1]);
 }
@@ -152,6 +152,7 @@ function updatePong ()
     if (pong.x <= leftPaddle.width) {
         if ((pong.y + pong.size >= leftPaddle.y) && (pong.y <= leftPaddle.y + leftPaddle.height)) {
             pong.speedX += PONG_SPEED_INCREMENT;
+            pong.speedY += PONG_SPEED_INCREMENT;
             pong.directionX = -pong.directionX;
         } else {
             rightScore++;
@@ -162,6 +163,7 @@ function updatePong ()
     if (pong.x + pong.size >= CANVAS_WIDTH - rightPaddle.width) {
         if ((pong.y + pong.size >= rightPaddle.y) && (pong.y <= rightPaddle.y + rightPaddle.height)) {
             pong.speedX += PONG_SPEED_INCREMENT;
+            pong.speedY += PONG_SPEED_INCREMENT;
             pong.directionX = -pong.directionX;
         } else {
             rightScore++;
