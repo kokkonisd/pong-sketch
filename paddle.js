@@ -1,9 +1,8 @@
 /**
- * Conway's Game of Life (https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life)
+ * Pong (https://en.wikipedia.org/wiki/Pong)
  * Implemented by Dimitri Kokkonis (https://kokkonisd.github.io/)
- * This file contains the code describing the Cell object for the Game of Life.
+ * This file contains the code describing the Paddle object for the Pong game.
  */
-
 
 
 class Paddle {
