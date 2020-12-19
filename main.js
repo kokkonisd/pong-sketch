@@ -28,11 +28,33 @@ let pong;
 let leftScore;
 let rightScore;
 
+// Audio for Chrome
+let ctx;
+let ctxOn;
+
+function setupAudio ()
+{
+    ctx = getAudioContext();
+    ctxOn = createButton('turn on Audio');
+    ctxOn.position(windowWidth / 2 - ctxOn.size().width / 2, CANVAS_HEIGHT)
+
+    ctxOn.mousePressed(() => {
+        ctx.resume().then(() => {
+        console.log('Audio Context is now ON');
+            ctxOn.hide();
+            loop();
+            reset();
+        });
+    });
+}
+
 
 function setup ()
 {
     canvas = createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
     background('black');
+    noLoop();
+
 
     leftPaddle = new Paddle(0,
                             CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
@@ -56,9 +78,8 @@ function setup ()
                     PONG_BASE_SPEED);
 
     frameRate(60);
-    loop();
 
-    reset();
+    setupAudio();
 }
 
 
@@ -133,14 +154,20 @@ function resetPaddles ()
 }
 
 
-function resetPong ()
+async function resetPong ()
 {
     pong.x = CANVAS_WIDTH / 2 - pong.size / 2;
     pong.y = CANVAS_HEIGHT / 2 - pong.size / 2;
-    pong.speedX = pong.baseSpeed;
-    pong.speedY = random(pong.baseSpeed * 0.5, pong.baseSpeed * 2);
     pong.directionX = random([1, -1]);
     pong.directionY = random([1, -1]);
+    pong.speedX = 0;
+    pong.speedY = 0;
+
+    await sleep(3000);
+    // TODO draw countdown text 3... 2... 1...
+
+    pong.speedX = pong.baseSpeed;
+    pong.speedY = random(pong.baseSpeed * 0.5, pong.baseSpeed * 2);
 }
 
 
@@ -174,4 +201,10 @@ function updatePong ()
     if (pong.y <= 0 || pong.y + pong.size >= CANVAS_HEIGHT) {
         pong.directionY = -pong.directionY;
     }
+}
+
+
+function sleep (ms)
+{
+  return new Promise(resolve => setTimeout(resolve, ms));
 }

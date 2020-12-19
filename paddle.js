@@ -36,15 +36,19 @@ class Paddle {
 
     moveUp ()
     {
-        if (this.y - this.speed >= this.upperLimit) {
-            this.y -= this.speed;
+        this.y -= this.speed;
+
+        if (this.y <= this.upperLimit) {
+            this.y = 0;
         }
     }
 
     moveDown ()
     {
-        if (this.y + this.height + this.speed <= this.lowerLimit) {
-            this.y += this.speed;
+        this.y += this.speed;
+
+        if (this.y + this.height >= this.lowerLimit) {
+            this.y = this.lowerLimit - this.height;
         }
     }
 
