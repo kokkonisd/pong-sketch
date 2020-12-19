@@ -9,3 +9,29 @@ canvas {
     margin-left: auto;
     margin-right: auto;
 }
+
+
+button {
+    padding: 5px;
+    font-family: 'monospace';
+    background: black;
+    border: 2px solid white;
+    color: white;
+    box-shadow: 0px 5px #c9c9c9;
+    outline: none;
+}
+
+
+button:hover {
+    background: white;
+    color: black;
+    cursor: pointer;
+    outline: none;
+}
+
+
+button:active {
+    box-shadow: none;
+    transform: translateY(5px);
+    outline: none;
+}

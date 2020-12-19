@@ -9,7 +9,7 @@
 const CANVAS_WIDTH = 700;
 const CANVAS_HEIGHT = 500;
 const PADDLE_WIDTH = 10;
-const PADDLE_HEIGHT = 50;
+const PADDLE_HEIGHT = 60;
 const PADDLE_SPEED = 10;
 const PONG_SIZE = 10;
 const PONG_BASE_SPEED = 2;
@@ -33,6 +33,17 @@ let countdown = "3";
 let ctx;
 let ctxOn;
 let isPlaying = false;
+let bounceSound;
+let scoreSound;
+
+
+function preload ()
+{
+    soundFormats('wav');
+    bounceSound = loadSound('sound/bounce');
+    scoreSound = loadSound('sound/score');
+}
+
 
 function setupAudio ()
 {
@@ -40,7 +51,7 @@ function setupAudio ()
     ctxOn = createButton('play');
     ctxOn.position(windowWidth / 2 - ctxOn.size().width / 2, CANVAS_HEIGHT / 2 - ctxOn.size().height / 2)
 
-    ctxOn.mousePressed(() => {
+    ctxOn.mouseReleased(() => {
         ctx.resume().then(() => {
         console.log('Audio Context is now ON');
             ctxOn.hide();
@@ -82,9 +93,7 @@ function setup ()
                     PONG_SIZE,
                     PONG_BASE_SPEED);
 
-    frameRate(60);
-
-    
+    frameRate(60);   
 }
 
 
@@ -133,7 +142,7 @@ function drawCountdown ()
     fill('white');
     textAlign(CENTER, CENTER);
     textFont('monospace');
-    
+
     text(countdown, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 40);
 
     pop();
@@ -227,10 +236,12 @@ function updatePong ()
 
     if (pong.x <= leftPaddle.width) {
         if ((pong.y + pong.size >= leftPaddle.y) && (pong.y <= leftPaddle.y + leftPaddle.height)) {
+            bounceSound.play();
             pong.speedX += PONG_SPEED_INCREMENT;
             pong.speedY += PONG_SPEED_INCREMENT;
             pong.directionX = -pong.directionX;
         } else {
+            scoreSound.play();
             rightScore++;
             resetPong();
         }
@@ -238,16 +249,19 @@ function updatePong ()
 
     if (pong.x + pong.size >= CANVAS_WIDTH - rightPaddle.width) {
         if ((pong.y + pong.size >= rightPaddle.y) && (pong.y <= rightPaddle.y + rightPaddle.height)) {
+            bounceSound.play();
             pong.speedX += PONG_SPEED_INCREMENT;
             pong.speedY += PONG_SPEED_INCREMENT;
             pong.directionX = -pong.directionX;
         } else {
+            scoreSound.play();
             leftScore++;
             resetPong();
         }
     }
 
     if (pong.y <= 0 || pong.y + pong.size >= CANVAS_HEIGHT) {
+        bounceSound.play();
         pong.directionY = -pong.directionY;
     }
 }
