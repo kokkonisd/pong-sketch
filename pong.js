@@ -5,8 +5,21 @@
  */
 
 
+/**
+ * This class describes the pong in Pong.
+ *
+ * @class      Pong (name)
+ */
 class Pong {
 
+    /**
+     * Constructs a new instance of the Pong class.
+     *
+     * @param {float} x          The horizontal position of the Pong. 
+     * @param {float} y          The vertical position of the Pong. 
+     * @param {int}   size       The size of the Pong (it's a square). 
+     * @param {float} baseSpeed  The base (minimum) movement speed of the Pong. 
+     */
     constructor (x, y, size, baseSpeed)
     {
         this.x = x;
@@ -16,6 +29,9 @@ class Pong {
     }
 
 
+    /**
+     * Displays the Pong.
+     */
     display ()
     {
         push();

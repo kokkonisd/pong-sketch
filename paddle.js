@@ -5,8 +5,24 @@
  */
 
 
+/**
+ * This class describes a paddle in Pong.
+ *
+ * @class      Paddle (name)
+ */
 class Paddle {
 
+    /**
+     * Constructs a new instance of the Paddle class.
+     *
+     * @param {float} x          The horizontal position of the Paddle. 
+     * @param {float} y          The vertical position of the Paddle. 
+     * @param {int}   width      The width of the Paddle. 
+     * @param {int}   height     The height of the Paddle. 
+     * @param {float} speed      The movement speed of the Paddle. 
+     * @param {float} upperLimit The upper (vertical) limit of the Paddle's movement.
+     * @param {float} lowerLimit The lower (vertical) limit of the Paddle's movement.
+     */
     constructor (x, y, width, height, speed, upperLimit, lowerLimit)
     {
         this.x = x;
@@ -19,6 +35,9 @@ class Paddle {
     }
 
 
+    /**
+     * Displays the Paddle.
+     */
     display ()
     {
         push();
@@ -34,6 +53,10 @@ class Paddle {
         pop();
     }
 
+
+    /**
+     * Moves the Paddle up.
+     */
     moveUp ()
     {
         this.y -= this.speed;
@@ -43,6 +66,10 @@ class Paddle {
         }
     }
 
+
+    /**
+     * Moves the Paddle down.
+     */
     moveDown ()
     {
         this.y += this.speed;
