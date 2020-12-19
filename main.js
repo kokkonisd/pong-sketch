@@ -24,26 +24,30 @@ let rightPaddle;
 // Pong
 let pong;
 
-// Scores
-let leftScore;
-let rightScore;
+// Scores & countdown
+let leftScore = 0;
+let rightScore = 0;
+let countdown = "3";
 
 // Audio for Chrome
 let ctx;
 let ctxOn;
+let isPlaying = false;
 
 function setupAudio ()
 {
     ctx = getAudioContext();
-    ctxOn = createButton('turn on Audio');
-    ctxOn.position(windowWidth / 2 - ctxOn.size().width / 2, CANVAS_HEIGHT)
+    ctxOn = createButton('play');
+    ctxOn.position(windowWidth / 2 - ctxOn.size().width / 2, CANVAS_HEIGHT / 2 - ctxOn.size().height / 2)
 
     ctxOn.mousePressed(() => {
         ctx.resume().then(() => {
         console.log('Audio Context is now ON');
             ctxOn.hide();
+            isPlaying = true;
             loop();
             reset();
+            
         });
     });
 }
@@ -53,6 +57,7 @@ function setup ()
 {
     canvas = createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
     background('black');
+    setupAudio();
     noLoop();
 
 
@@ -79,7 +84,7 @@ function setup ()
 
     frameRate(60);
 
-    setupAudio();
+    
 }
 
 
@@ -92,14 +97,20 @@ function reset ()
 
 function draw ()
 {
+    if (!isPlaying) {
+        return
+    }
     // Clear canvas
     background('black');
 
     // Dashed line right down the midle
-    draw_dashed_line();
+    drawDashedLane();
+
+    // Draw countdown
+    drawCountdown();
 
     // Draw scores
-    // TODO
+    drawScores();
     
     // Handle input
     handlePaddleMotion();
@@ -114,7 +125,40 @@ function draw ()
 }
 
 
-function draw_dashed_line ()
+function drawCountdown ()
+{
+    push();
+
+    textSize(48);
+    fill('white');
+    textAlign(CENTER, CENTER);
+    textFont('monospace');
+    
+    text(countdown, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 40);
+
+    pop();
+}
+
+
+function drawScores ()
+{
+    push();
+
+    textSize(48);
+    fill('white');
+    textAlign(CENTER, CENTER);
+    textFont('monospace');
+
+    let offset = 50;
+
+    text(str(leftScore), offset, 40);
+    text(str(rightScore), CANVAS_WIDTH - offset, 40);
+
+    pop();
+}
+
+
+function drawDashedLane ()
 {
     push();
 
@@ -163,8 +207,13 @@ async function resetPong ()
     pong.speedX = 0;
     pong.speedY = 0;
 
-    await sleep(3000);
-    // TODO draw countdown text 3... 2... 1...
+    countdown = "3";
+    await sleep(1000);
+    countdown = "2";
+    await sleep(1000);
+    countdown = "1";
+    await sleep(1000);
+    countdown = "";
 
     pong.speedX = pong.baseSpeed;
     pong.speedY = random(pong.baseSpeed * 0.5, pong.baseSpeed * 2);
@@ -193,7 +242,7 @@ function updatePong ()
             pong.speedY += PONG_SPEED_INCREMENT;
             pong.directionX = -pong.directionX;
         } else {
-            rightScore++;
+            leftScore++;
             resetPong();
         }
     }
